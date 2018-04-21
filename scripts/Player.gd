@@ -29,3 +29,16 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+func damage(amount):
+	health -= amount
+	if health <= 0:
+		hide()
+		$CollisionShape2D.disabled = true
+
+func _on_Player_body_entered(body):
+	if "TYPE" in body:
+		if body.TYPE == "enemy":
+			var amount = body.health
+			body.damage(amount)
+			damage(amount)

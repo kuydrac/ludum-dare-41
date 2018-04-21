@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+const TYPE = "enemy"
+
 export (int) var speed = 100
 export (int) var health = 20
 
@@ -45,3 +47,10 @@ func _on_LeaveTimer_timeout():
 	new_pos.x = clamp(new_pos.x, 0, screensize.x)
 	new_pos.y = screensize.y + 1000
 	set_goal_pos(new_pos)
+
+func damage(amount):
+	health -= amount
+	if health <= 0:
+		hide()
+		$CollisionShape2D.disabled = true
+		queue_free()

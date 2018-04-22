@@ -7,6 +7,7 @@ var screensize = Vector2()
 
 func _ready():
 	screensize = get_viewport_rect().size
+	start(Vector2(0,0))
 	$AnimatedSprite.play()
 
 func _process(delta):
@@ -24,11 +25,17 @@ func _process(delta):
 	position += velocity * delta
 	position.x = clamp(position.x, 0, screensize.x)
 	position.y = clamp(position.y, 0, screensize.y)
+	
+	$WeaponSystem.set_position(position)
+	
+	if Input.is_action_pressed("ui_fire"):
+		$WeaponSystem.fire_weapon()
 
 func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+	$WeaponSystem.reset()
 
 func damage(amount):
 	health -= amount
@@ -42,3 +49,8 @@ func _on_Player_body_entered(body):
 			var amount = body.health
 			body.damage(amount)
 			damage(amount)
+		elif "player_owner" in body:
+			if body.TYPE == "bullet" and body.player_owner == false:
+				var amount = body.health
+				body.damage(amount)
+				damage(amount)

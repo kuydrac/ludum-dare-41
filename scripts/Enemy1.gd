@@ -14,6 +14,7 @@ func _ready():
 	position.x = randi() % int(screensize.x)
 	$LeaveTimer.wait_time = rand_range(10, 20)
 	$LeaveTimer.start()
+	$AnimatedSprite.play()
 
 func _process(delta):
 	var velocity = Vector2()
@@ -54,3 +55,11 @@ func damage(amount):
 		hide()
 		$CollisionShape2D.disabled = true
 		queue_free()
+
+
+func _on_Enemy1_body_entered(body):
+	if "TYPE" in body and "player_owner" in body:
+		if body.TYPE == "bullet" and body.player_owner:
+			var amount = body.health
+			body.damage(amount)
+			damage(amount)

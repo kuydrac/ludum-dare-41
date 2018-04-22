@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/player.png" type="Texture" id=2]
+[ext_resource path="res://scenes/WeaponSystem.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -39,6 +40,8 @@ animation = "default"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 
 shape = SubResource( 2 )
+
+[node name="WeaponSystem" parent="." index="2" instance=ExtResource( 3 )]
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 

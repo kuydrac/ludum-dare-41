@@ -1,9 +1,9 @@
-extends RigidBody2D
+extends Area2D
 
 const dir = Vector2(0,-1)
 const TYPE = "bullet"
 var player_owner = true
-var health = 1
+var health = 4
 
 export (int) var speed = 500
 

@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends Area2D
 
 const TYPE = "enemy"
 
@@ -12,7 +12,7 @@ func _ready():
 	screensize = get_viewport_rect().size
 	position.y = -32
 	position.x = randi() % int(screensize.x)
-	$LeaveTimer.wait_time = rand_range(10, 20)
+	$LeaveTimer.wait_time = rand_range(20, 30)
 	$LeaveTimer.start()
 	$AnimatedSprite.play()
 
@@ -56,10 +56,9 @@ func damage(amount):
 		$CollisionShape2D.disabled = true
 		queue_free()
 
-
-func _on_Enemy1_body_entered(body):
-	if "TYPE" in body and "player_owner" in body:
-		if body.TYPE == "bullet" and body.player_owner:
-			var amount = body.health
-			body.damage(amount)
+func _on_Enemy1_area_entered(area):
+	if "TYPE" in area and "player_owner" in area:
+		if area.TYPE == "bullet" and area.player_owner:
+			var amount = area.health
+			area.damage(amount)
 			damage(amount)

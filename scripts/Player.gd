@@ -43,14 +43,14 @@ func damage(amount):
 		hide()
 		$CollisionShape2D.disabled = true
 
-func _on_Player_body_entered(body):
-	if "TYPE" in body:
-		if body.TYPE == "enemy":
-			var amount = body.health
-			body.damage(amount)
+func _on_Player_area_entered(area):
+	if "TYPE" in area:
+		if area.TYPE == "enemy":
+			var amount = area.health
+			area.damage(amount)
 			damage(amount)
-		elif "player_owner" in body:
-			if body.TYPE == "bullet" and body.player_owner == false:
-				var amount = body.health
-				body.damage(amount)
+		elif "player_owner" in area:
+			if area.TYPE == "bullet" and area.player_owner == false:
+				var amount = area.health
+				area.damage(amount)
 				damage(amount)

@@ -1,9 +1,10 @@
 extends Area2D
 
-const dir = Vector2(0,-1)
+var dir = Vector2(0,1)
 const TYPE = "bullet"
-var player_owner = true
-var health = 4
+var player_owned = false
+var health = 2
+var bullet_color = Color()
 
 export (int) var speed = 500
 
@@ -19,6 +20,7 @@ func _on_VisibilityNotifier2D_viewport_exited(viewport):
 
 func set_color(color):
 	$Sprite.set_modulate(color)
+	bullet_color = color
 
 func damage(amount):
 	health -= amount

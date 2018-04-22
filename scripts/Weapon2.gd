@@ -1,7 +1,7 @@
 extends Node
 
 const bullet = preload("res://scenes/Bullet.tscn")
-const LEVEL = 1
+const LEVEL = 2
 var max_wait = 1.0/(1 + LEVEL)
 var wait_reduction = 0.25/LEVEL
 var weapon_color = Color()
@@ -17,11 +17,19 @@ func fire():
 		var bul = bullet.instance()
 		add_child(bul)
 		bul.set_color(weapon_color)
-		bul.position = $Position2D.position
+		bul.position = $Position2D.position + Vector2(10,0)
 		if player_owned:
 			bul.dir = -bul.dir
 			bul.player_owned = true
 			bul.health = 5
+		bul = bullet.instance()
+		add_child(bul)
+		bul.set_color(weapon_color)
+		bul.position = $Position2D.position - Vector2(10,0)
+		if player_owned:
+			bul.dir = -bul.dir
+			bul.player_owned = true
+			bul.health = 4
 		$Cooldown.start()
 
 func set_power(power):
@@ -32,6 +40,3 @@ func set_power(power):
 
 func set_position(pos):
 	$Position2D.position = pos
-
-func set_player_owned():
-	player_owned = true

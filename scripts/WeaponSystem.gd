@@ -1,6 +1,7 @@
 extends Node
 
 const weapon1 = preload("res://scenes/Weapon1.tscn")
+const weapon2 = preload("res://scenes/Weapon2.tscn")
 const dark_red_color = Color(0.5, 0, 0)
 const red_color = Color(1.0, 0, 0)
 const black_color = Color(0, 0, 0) 
@@ -11,6 +12,7 @@ var hand = {
 	"type": "Empty",
 	"power": 1,
 	"color": dark_red_color}
+var player_owned = false
 signal no_cards
 
 class Card:
@@ -224,13 +226,15 @@ func update_weapon():
 			cur_weapon = weapon1.instance()
 		"Single":
 			cur_weapon = weapon1.instance()
-		"Pair":
-			cur_weapon = weapon1.instance()
+		"A Pair":
+			cur_weapon = weapon2.instance()
 		_:
 			cur_weapon = weapon1.instance()
 	add_child(cur_weapon)
 	cur_weapon.weapon_color = hand.color
 	cur_weapon.set_power(hand.power)
+	if player_owned:
+		cur_weapon.set_player_owned()
 
 func fire_weapon():
 	if cur_weapon:
@@ -244,3 +248,6 @@ func set_position(pos):
 		_:
 			new_pos.y -= 16
 	cur_weapon.set_position(new_pos)
+
+func get_weapon_color():
+	return cur_weapon.weapon_color

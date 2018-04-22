@@ -1,5 +1,7 @@
 extends Area2D
 
+const START_HEALTH = 100
+
 export (int) var speed = 250
 export (int) var health = 100
 
@@ -36,12 +38,34 @@ func start(pos):
 	show()
 	$CollisionShape2D.disabled = false
 	$WeaponSystem.reset()
+	$WeaponSystem.player_owned = true
 
-func damage(amount):
+func stop():
+	hide()
+	$CollisionShape2D.disabled = true
+
+func game_over():
+	stop()
+
+func damage(amount, bullet = false, color = $WeaponSystem.dark_red_color):
+	if bullet:
+		if $WeaponSystem.get_weapon_color() == $WeaponSystem.red_color:
+			if color == $WeaponSystem.black_color:
+				amount *= 2
+			elif color == $WeaponSystem.red_color:
+				amount /= 2
+		elif $WeaponSystem.get_weapon_color() == $WeaponSystem.black_color:
+			if color == $WeaponSystem.black_color:
+				amount /= 2
+			elif color == $WeaponSystem.red_color:
+				amount *= 2
+		elif $WeaponSystem.get_weapon_color() == $WeaponSystem.dark_red_color:
+			if color == $WeaponSystem.dark_red_color:
+				amount /= 2
 	health -= amount
 	if health <= 0:
-		hide()
-		$CollisionShape2D.disabled = true
+		$WeaponSystem.remove_card()
+		health = START_HEALTH
 
 func _on_Player_area_entered(area):
 	if "TYPE" in area:
@@ -49,8 +73,12 @@ func _on_Player_area_entered(area):
 			var amount = area.health
 			area.damage(amount)
 			damage(amount)
-		elif "player_owner" in area:
-			if area.TYPE == "bullet" and area.player_owner == false:
+		elif "player_owned" in area:
+			if area.TYPE == "bullet" and area.player_owned == false:
 				var amount = area.health
 				area.damage(amount)
-				damage(amount)
+				damage(amount, true, area.bullet_color)
+
+
+func _on_WeaponSystem_no_cards():
+	game_over()

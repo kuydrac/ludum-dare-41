@@ -26,4 +26,4 @@ func spawn_enemy():
 
 func _on_SpawnTimer_timeout():
 	spawn_enemy()
-	$SpawnTimer.wait_time = rand_range(1, 5)
+	$SpawnTimer.wait_time = rand_range(2, 10)

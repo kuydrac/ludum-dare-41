@@ -19,7 +19,7 @@ custom_solver_bias = 0.0
 radius = 14.1397
 height = 1.81857
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="Area2D" index="0"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -44,5 +44,7 @@ shape = SubResource( 2 )
 [node name="WeaponSystem" parent="." index="2" instance=ExtResource( 3 )]
 
 [connection signal="area_entered" from="." to="." method="_on_Player_area_entered"]
+
+[connection signal="no_cards" from="WeaponSystem" to="." method="_on_WeaponSystem_no_cards"]
 
 
